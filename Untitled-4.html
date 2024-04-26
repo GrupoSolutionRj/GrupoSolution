@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Gastos Semanais</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            background-image: linear-gradient(to right bottom, #430089, #82ffa1);
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 20px;
+            max-width: 80%;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        #container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #222;
+        }
+        label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        select, input {
+            width: calc(100% - 10px);
+            padding: 10px;
+            margin-bottom: 10px; /* Espaçamento entre o campo e o botão */
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            color: #333;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #430089;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #5f00ff;
+        }
+        #diasGastos p {
+            margin: 5px 0; /* Espaçamento entre os dias e os gastos */
+        }
+        #resultado {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2>Calculadora de Gastos Semanais</h2>
+        <label for="diaSemana">Escolha o dia da semana:</label>
+        <select id="diaSemana">
+            <option value="Domingo">Domingo</option>
+            <option value="Segunda-feira">Segunda-feira</option>
+            <option value="Terça-feira">Terça-feira</option>
+            <option value="Quarta-feira">Quarta-feira</option>
+            <option value="Quinta-feira">Quinta-feira</option>
+            <option value="Sexta-feira">Sexta-feira</option>
+            <option value="Sábado">Sábado</option>
+        </select><br>
+        <label for="gastoDia">Insira o gasto do dia:</label>
+        <input type="number" id="gastoDia" step="0.01"><br>
+        <button id="btnAdicionar">Adicionar</button><br>
+        <div id="diasGastos"></div>
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        let totalGasto = 0;
+        let dias = 0;
+
+        document.getElementById("btnAdicionar").addEventListener("click", adicionarGasto);
+        document.getElementById("btnAdicionar").addEventListener("touchstart", adicionarGasto);
+
+        function adicionarGasto() {
+            let diaSelecionado = document.getElementById("diaSemana").value;
+            let gastoDiaInput = document.getElementById("gastoDia");
+            let gastoDia = parseFloat(gastoDiaInput.value);
+            totalGasto += gastoDia;
+            dias++;
+
+            // Exibir o dia da semana e o gasto ao lado
+            let diasGastosDiv = document.getElementById("diasGastos");
+            diasGastosDiv.innerHTML += "<p>" + diaSelecionado + ": R$ " + gastoDia.toFixed(2) + "</p>";
+
+            gastoDiaInput.value = ""; // Limpar o campo de entrada
+
+            if (dias === 7) {
+                calcularResultados();
+            }
+        }
+
+        function calcularResultados() {
+            let mediaDiaria = totalGasto / 7;
+
+            // Formatar os valores para exibição
+            totalGasto = totalGasto.toFixed(2);
+            mediaDiaria = mediaDiaria.toFixed(2);
+
+            // Exibir o total gasto e a média diária
+            let resultadoDiv = document.getElementById("resultado");
+            resultadoDiv.innerHTML = "<strong>Total gasto na semana:</strong> R$ " + totalGasto + "<br><strong>Média diária de gastos:</strong> R$ " + mediaDiaria;
+
+            // Exibir mensagem engraçada
+            exibirMensagemEngracada();
+        }
+
+        function exibirMensagemEngracada() {
+            alert("Parabéns! Você sobreviveu à semana sem falir e sem desmaiar! 💰🥳");
+        }
+    </script>
+</body>
+</html>
